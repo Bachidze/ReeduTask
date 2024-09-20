@@ -6,15 +6,21 @@ import ShowSelected from "@/components/ShowSelected";
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [todo, setTodo] = useState<TodoType[]>(() => {
-    const storedTodos = localStorage.getItem("todos");
-    return storedTodos ? JSON.parse(storedTodos) : [];
-  });
+  const [todo, setTodo] = useState<TodoType[]>([]);
   const [showColors, setShowColors] = useState(false);
   const [selectedColor, setSelectedColor] = useState("");
   const colors = ["red", "blue", "green", "orange"];
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
 
+  // Load todos from localStorage when the component mounts
+  useEffect(() => {
+    const storedTodos = localStorage.getItem("todos");
+    if (storedTodos) {
+      setTodo(JSON.parse(storedTodos));
+    }
+  }, []);
+
+  // Update localStorage whenever the todos change
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todo));
   }, [todo]);
@@ -26,7 +32,7 @@ export default function Home() {
     }
     const TodoObject = {
       name: input,
-      id: Math.random() * Math.random(),
+      id: Math.random(), // Consider switching to a unique ID generator like uuid
       time: new Date().toLocaleTimeString(),
       isCompleted: false,
       color: selectedColor,
@@ -50,7 +56,7 @@ export default function Home() {
   };
 
   const handleColorSelect = (color: string) => {
-    setSelectedColor(color); 
+    setSelectedColor(color);
   };
 
   const toggleShowColors = () => {
@@ -98,24 +104,23 @@ export default function Home() {
     <>
       <main className="flex m-auto flex-col w-[90%] gap-2">
         <ShowSelected
-         selectedColor={selectedColor}
-         showColors={showColors}
-         colors={colors}
-         handleColorSelect={handleColorSelect}
-         handleSubmit={handleSubmit}
-         catchInput={catchInput}
-         input={input}
-         toggleShowColors= {toggleShowColors}
-         /> 
-
-      <TodoList
-        todos={todo} 
-        handleDelete={handleDelete} 
-        handleIsCompleted={handleIsCompleted} 
-        handleDownload={handleDownload}
-        handleDragStart={handleDragStart}
-        handleDragOver={handleDragOver} 
-        handleDrop={handleDrop} 
+          selectedColor={selectedColor}
+          showColors={showColors}
+          colors={colors}
+          handleColorSelect={handleColorSelect}
+          handleSubmit={handleSubmit}
+          catchInput={catchInput}
+          input={input}
+          toggleShowColors={toggleShowColors}
+        />
+        <TodoList
+          todos={todo}
+          handleDelete={handleDelete}
+          handleIsCompleted={handleIsCompleted}
+          handleDownload={handleDownload}
+          handleDragStart={handleDragStart}
+          handleDragOver={handleDragOver}
+          handleDrop={handleDrop}
         />
       </main>
     </>
