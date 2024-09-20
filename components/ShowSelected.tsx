@@ -8,7 +8,7 @@ interface ShowSelectedProps {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   catchInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   input: string;
-  toggleShowColors:any
+  toggleShowColors: () => void; 
 }
 
 export default function ShowSelected({
