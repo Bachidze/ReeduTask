@@ -28,7 +28,7 @@ const TodoList: React.FC<TodoListProps> = ({
           key={el.id}
           className="flex flex-col w-full rounded-xl"
           style={{
-            backgroundColor: el.isCompleted ? el.color : "red",
+            backgroundColor: el.isCompleted ? "red" : el.color,
           }}
           draggable
           onDragStart={() => handleDragStart(index)}
