@@ -24,28 +24,28 @@ const TodoList: React.FC<TodoListProps> = ({
   return (
     <>
       {todos.map((el, index) => (
-        <div
-          key={el.id}
-          className="flex flex-col w-full rounded-xl"
-          style={{
-            backgroundColor: el.isCompleted ? "red" : el.color,
-          }}
-          draggable
-          onDragStart={() => handleDragStart(index)}
-          onDragOver={handleDragOver}
-          onDrop={() => handleDrop(index)}
-        >
-          <h1>{el.name}</h1>
-          <h1>{el.time}</h1>
-          <div className="flex gap-2">
-            <button onClick={() => handleDelete(el.id)}>Delete</button>
-            <button onClick={() => handleIsCompleted(el.id)}>
-              {el.isCompleted ? "isNotCompleted" : "Complete"}
-            </button>
-            <button onClick={() => handleDownload(el)}>Download</button>
+          <div
+            key={el.id}
+            className="flex flex-col w-full rounded-xl"
+            style={{
+              backgroundColor: el.isCompleted ? "red" : el.color,
+            }}
+            draggable
+            onDragStart={() => handleDragStart(index)}
+            onDragOver={handleDragOver}
+            onDrop={() => handleDrop(index)}
+          >
+            <h1>{el.name}</h1>
+            <h1>{el.time}</h1>
+            <div className="flex gap-2">
+              <button onClick={() => handleDelete(el.id)}>Delete</button>
+              <button onClick={() => handleIsCompleted(el.id)}>
+                {el.isCompleted ? "isNotCompleted" : "Complete"}
+              </button>
+              <button onClick={() => handleDownload(el)}>Download</button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </>
   );
 };

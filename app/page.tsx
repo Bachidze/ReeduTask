@@ -1,17 +1,23 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TodoType } from "./types";
 import TodoList from "@/components/TodoList";
 import ShowSelected from "@/components/ShowSelected";
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [todo, setTodo] = useState<TodoType[]>([]);
+  const [todo, setTodo] = useState<TodoType[]>(() => {
+    const storedTodos = localStorage.getItem("todos");
+    return storedTodos ? JSON.parse(storedTodos) : [];
+  });
   const [showColors, setShowColors] = useState(false);
   const [selectedColor, setSelectedColor] = useState("");
-
   const colors = ["red", "blue", "green", "orange"];
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todo));
+  }, [todo]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,9 +29,9 @@ export default function Home() {
       id: Math.random() * Math.random(),
       time: new Date().toLocaleTimeString(),
       isCompleted: false,
-      color: selectedColor, 
+      color: selectedColor,
     };
-    setTodo([...todo, TodoObject]);
+    setTodo((prev) => [...prev, TodoObject]);
     setInput("");
   };
 
@@ -44,8 +50,11 @@ export default function Home() {
   };
 
   const handleColorSelect = (color: string) => {
-    setSelectedColor(color);
-    setShowColors(false);
+    setSelectedColor(color); 
+  };
+
+  const toggleShowColors = () => {
+    setShowColors((prev) => !prev);
   };
 
   const handleDownload = (todo: TodoType) => {
@@ -88,7 +97,7 @@ export default function Home() {
   return (
     <>
       <main className="flex m-auto flex-col w-[90%] gap-2">
-         <ShowSelected
+        <ShowSelected
          selectedColor={selectedColor}
          showColors={showColors}
          colors={colors}
@@ -97,8 +106,10 @@ export default function Home() {
          handleSubmit={handleSubmit}
          catchInput={catchInput}
          input={input}
-         />
-        <TodoList
+         toggleShowColors= {toggleShowColors}
+         /> 
+
+      <TodoList
         todos={todo} 
         handleDelete={handleDelete} 
         handleIsCompleted={handleIsCompleted} 
