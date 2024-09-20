@@ -102,7 +102,6 @@ export default function Home() {
          showColors={showColors}
          colors={colors}
          handleColorSelect={handleColorSelect}
-         setShowColors={setShowColors}
          handleSubmit={handleSubmit}
          catchInput={catchInput}
          input={input}

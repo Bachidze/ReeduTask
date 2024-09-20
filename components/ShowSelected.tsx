@@ -5,7 +5,6 @@ interface ShowSelectedProps {
   showColors: boolean;
   colors: string[];
   handleColorSelect: (color: string) => void;
-  setShowColors: (show: boolean) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   catchInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   input: string;
@@ -17,7 +16,6 @@ export default function ShowSelected({
   showColors,
   colors,
   handleColorSelect,
-  setShowColors,
   handleSubmit,
   catchInput,
   input,
